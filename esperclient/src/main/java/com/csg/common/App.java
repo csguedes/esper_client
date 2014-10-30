@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.concurrent.Executors;
@@ -19,11 +21,22 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
@@ -32,6 +45,7 @@ public class App {
 	@SuppressWarnings({ "resource", "deprecation" })
 	public static void main(String[] args) {
 		enviarInventarios();
+//		testarSeguranca();
 //		enviarConsultasNagios();
 
 	}
@@ -45,7 +59,7 @@ public class App {
 			// Início
 			
 			
-	     	String target_dir = "C:\\Users\\cristian.guedes\\Desktop\\inventários";
+	     	String target_dir = "D:\\cristian\\backup\\inventários";
 	        File dir = new File(target_dir);
 	        File[] files = dir.listFiles();
 
@@ -97,14 +111,51 @@ public class App {
 	
 	
 	
-	@RolesAllowed("citsmart")
+
+	public static void testarSeguranca() {
+		try {
+			System.out.println("Testando seguranca...");
+			
+			String userPassword = "ADMIN" + ":" + "1";
+			String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+			
+			
+			URL url = new URL("http://10.2.1.115:8089/ExemploEsper/user-service/users/1");
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+			connection.setRequestMethod("PUT");
+			
+			
+			connection.setDoOutput(true);
+			connection.setInstanceFollowRedirects(false);
+
+			System.out.println(connection.getResponseMessage());
+			System.out.println(connection.getResponseCode());
+			connection.disconnect();  
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	public static void enviarXMLCTM(String XML) {
 		try {
 			System.out.println("enviando XML CTM...");
 			
-			URL url = new URL("http://10.2.1.158:8089/EsperServer/send/xmlCTM?oneway=true&username=citsmart&password=centralit");
+			String userPassword = "ADMIN" + ":" + "1";
+			String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+			
+			
+//			URL url = new URL("http://10.2.1.115:8089/ExemploEsper/send/xmlCTM?oneway=true&username=citsmart&password=centralit");
+			URL url = new URL("http://10.2.1.115:8089/ExemploEsper/send/xmlCTM");
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+			connection.setRequestMethod("PUT");
 			connection.setRequestProperty("Content-Type", "application/xml");
 			
 			connection.setDoOutput(true);
@@ -208,7 +259,7 @@ public class App {
 		URL url;
 		HttpURLConnection connection;
 		try {
-			url = new URL("http://10.2.1.158:8089/EsperServer/send/jsonnagios/");
+			url = new URL("http://10.2.1.115:8089/ExemploEsper/send/jsonnagios/");
 
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
