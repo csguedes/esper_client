@@ -44,9 +44,10 @@ import org.jboss.resteasy.client.ClientResponse;
 public class App {
 	@SuppressWarnings({ "resource", "deprecation" })
 	public static void main(String[] args) {
-		enviarInventarios();
+//		enviarInventarios();
 //		testarSeguranca();
 //		enviarConsultasNagios();
+		testarWebServiceCitsmart2();
 
 	}
 	
@@ -109,8 +110,110 @@ public class App {
 		return resultado;
 	}
 	
+	public static void testarWebServiceCitsmart2() {
+		try {
+			System.out.println("Testando WebService Citsmart...");
+			
+			
+			
+			URL url = new URL("http://localhost:8080/citsmart/evm/agendamentos");
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestMethod("PUT");
+			connection.setRequestProperty("Content-Type", "application/json");
+			
+			StringBuilder dados = new StringBuilder();
+
+//			dados.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+//			dados.append("<LoginPojo>");
+//			dados.append("<UserName>cristian.guedes</UserName>");
+//			dados.append("<Password>teste</Password>");
+//			dados.append("</LoginPojo>");
+			
+			dados.append("{\"userName\":\"cristian.guedes\",\"password\":\"1\"}");	
+			
+			
+			connection.setDoOutput(true);
+			connection.setInstanceFollowRedirects(false);
+	
+			OutputStream os = connection.getOutputStream();
+			os.write(dados.toString().getBytes());
+			os.flush();
+			
+			String saidaDoServidor = "";
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+			String output;
+
+			while ((output = br.readLine()) != null) {
+				saidaDoServidor+=output;
+			}
+				
+			
+			System.out.println(saidaDoServidor);
+			
+			System.out.println(connection.getResponseMessage());
+			System.out.println(connection.getResponseCode());
+			connection.disconnect();  
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+	}
 	
 	
+	public static void testarWebServiceCitsmart() {
+		try {
+			System.out.println("Testando WebService Citsmart...");
+			
+			
+			
+			URL url = new URL("http://localhost:8080/citsmart/evm/agendamentos");
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestMethod("GET");
+//			connection.setRequestProperty("Content-Type", "application/xml");
+			
+//			StringBuilder XML = new StringBuilder();
+//			XML.append("<CtNotificationNew>");
+//			XML.append("<Description>Agendamentos</Description>");
+//			XML.append("<MessageID>Agendamentos</MessageID>");
+//			XML.append("<SessionID>Agendamentos</SessionID>");
+//			XML.append("</CtNotificationNew>");
+//			 			
+			
+			connection.setDoOutput(true);
+			connection.setInstanceFollowRedirects(false);
+	
+//			OutputStream os = connection.getOutputStream();
+//			os.write(XML.toString().getBytes());
+//			os.flush();
+			
+			String saidaDoServidor = "";
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+			String output;
+
+			while ((output = br.readLine()) != null) {
+				saidaDoServidor+=output;
+			}
+			
+			System.out.println(saidaDoServidor);
+			
+			System.out.println(connection.getResponseMessage());
+			System.out.println(connection.getResponseCode());
+			connection.disconnect();  
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public static void testarSeguranca() {
 		try {
