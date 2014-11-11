@@ -47,7 +47,8 @@ public class App {
 //		enviarInventarios();
 //		testarSeguranca();
 //		enviarConsultasNagios();
-		testarWebServiceCitsmart2();
+//		testarWebServiceCitsmart2();
+		enviarEvmCronDTO();
 
 	}
 	
@@ -244,6 +245,188 @@ public class App {
 		}
 		
 	}
+	
+	public static void enviarEvmCronDTO() {
+		try {
+			System.out.println("Atualizando temporizador...");
+			
+			String userPassword = "ADMIN" + ":" + "1";
+			String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+			
+			
+			URL url = new URL("http://10.2.1.115:8089/citsmartevm/ws/atualizarTemporizador");
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+			connection.setRequestMethod("PUT");
+			connection.setRequestProperty("Content-Type", "application/json");
+			
+			
+			connection.setDoOutput(true);
+			connection.setInstanceFollowRedirects(false);
+
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("  {  ");
+			stringBuilder.append("      \"idCron\":3,");
+			stringBuilder.append("      \"nome\":\"A cada 15 minutos\",");
+			stringBuilder.append("      \"expressao\":\"0 */15 * * * ? *\",");
+			stringBuilder.append("      \"idUsuarioCriador\":22,");
+			stringBuilder.append("      \"idUsuarioModificador\":22,");
+			stringBuilder.append("      \"dataHoraInicio\":1415356956000,");
+			stringBuilder.append("      \"dataHoraFim\":null,");
+			stringBuilder.append("      \"dataHoraUltimaAlteracao\":1415108352000,");
+			stringBuilder.append("      \"nomeUsuarioModificador\":null,");
+			stringBuilder.append("      \"nomeUsuarioCriador\":null,");
+			stringBuilder.append("      \"listGerente\":[  ");
+			stringBuilder.append("         {  ");
+			stringBuilder.append("            \"idGerente\":1,");
+			stringBuilder.append("            \"nome\":\"Gerente do IC CITGOPC959 via Nagios 21\",");
+			stringBuilder.append("            \"idItemConfiguracaoPai\":98728,");
+			stringBuilder.append("            \"idCaracteristicaIdentificacao\":null,");
+			stringBuilder.append("            \"host\":null,");
+			stringBuilder.append("            \"idCron\":3,");
+			stringBuilder.append("            \"idFluxoDown\":1,");
+			stringBuilder.append("            \"idUsuarioCriador\":22,");
+			stringBuilder.append("            \"idUsuarioModificador\":null,");
+			stringBuilder.append("            \"dataHoraInicio\":1415290706000,");
+			stringBuilder.append("            \"dataHoraFim\":null,");
+			stringBuilder.append("            \"dataHoraUltimaAlteracao\":null,");
+			stringBuilder.append("            \"idConexao\":11,");
+			stringBuilder.append("            \"listItensGerenciados\":[  ");
+			stringBuilder.append("               {  ");
+			stringBuilder.append("                  \"idGerenciado\":1,");
+			stringBuilder.append("                  \"idGerente\":1,");
+			stringBuilder.append("                  \"servico\":null,");
+			stringBuilder.append("                  \"idItemConfiguracaoFilho\":98977,");
+			stringBuilder.append("                  \"idCaracteristicaIdentificacao\":10,");
+			stringBuilder.append("                  \"idCheck\":8,");
+			stringBuilder.append("                  \"idEvento\":1,");
+			stringBuilder.append("                  \"idFluxoAcaoWarning\":null,");
+			stringBuilder.append("                  \"idFluxoAcaoException\":null,");
+			stringBuilder.append("                  \"idUsuarioCriador\":22,");
+			stringBuilder.append("                  \"idUsuarioModificador\":null,");
+			stringBuilder.append("                  \"dataHoraInicio\":1415123100000,");
+			stringBuilder.append("                  \"dataHoraFim\":null,");
+			stringBuilder.append("                  \"dataHoraUltimaAlteracao\":null,");
+			stringBuilder.append("                  \"itemConfiguracaoFilhoMonitorado\":null,");
+			stringBuilder.append("                  \"evmCheckDto\":{  ");
+			stringBuilder.append("                     \"idCheck\":8,");
+			stringBuilder.append("                     \"idEvento\":1,");
+			stringBuilder.append("                     \"nome\":\"Check Disco\",");
+			stringBuilder.append("                     \"idTipoItemConfiguracao\":10,");
+			stringBuilder.append("                     \"idCaracteristicaPrincipal\":54,");
+			stringBuilder.append("                     \"tipoCheck\":1,");
+			stringBuilder.append("                     \"idCaracteristicaComplementar\":null,");
+			stringBuilder.append("                     \"simboloDaExpressaoWarning\":\"2\",");
+			stringBuilder.append("                     \"valorDaExpressaoWarning\":\"20\",");
+			stringBuilder.append("                     \"simboloDaExpressaoException\":\"2\",");
+			stringBuilder.append("                     \"valorDaExpressaoException\":\"10\",");
+			stringBuilder.append("                     \"idUsuarioCriador\":22,");
+			stringBuilder.append("                     \"idUsuarioModificador\":null,");
+			stringBuilder.append("                     \"dataHoraInicio\":1415126579000,");
+			stringBuilder.append("                     \"dataHoraFim\":null,");
+			stringBuilder.append("                     \"dataHoraUltimaAlteracao\":null,");
+			stringBuilder.append("                     \"nomeUsuarioModificador\":null,");
+			stringBuilder.append("                     \"nomeUsuarioCriador\":null");
+			stringBuilder.append("                  }");
+			stringBuilder.append("               }");
+			stringBuilder.append("            ],");
+			stringBuilder.append("            \"itemConfiguracaoMonitorado\":null,");
+			stringBuilder.append("            \"evmConexaoDto\":{  ");
+			stringBuilder.append("               \"idConexao\":11,");
+			stringBuilder.append("               \"nome\":\"A - Nagios 10.2.1.21\",");
+			stringBuilder.append("               \"ferramenta\":\"NAGIOS\",");
+			stringBuilder.append("               \"protocolo\":\"TCP\",");
+			stringBuilder.append("               \"endereco\":\"10.2.1.21\",");
+			stringBuilder.append("               \"porta\":6557,");
+			stringBuilder.append("               \"usuario\":\"nagiosadmin\",");
+			stringBuilder.append("               \"senha\":\"123mudar\",");
+			stringBuilder.append("               \"idUsuarioCriador\":22,");
+			stringBuilder.append("               \"idUsuarioModificador\":1899,");
+			stringBuilder.append("               \"dataHoraInicio\":1415290565000,");
+			stringBuilder.append("               \"dataHoraFim\":null,");
+			stringBuilder.append("               \"dataHoraUltimaAlteracao\":1415294119000,");
+			stringBuilder.append("               \"nomeUsuarioModificador\":null,");
+			stringBuilder.append("               \"nomeUsuarioCriador\":null");
+			stringBuilder.append("            }");
+			stringBuilder.append("         }");
+			stringBuilder.append("      ],");
+			stringBuilder.append("      \"ano\":null,");
+			stringBuilder.append("      \"diaDaSemana\":null,");
+			stringBuilder.append("      \"mes\":null,");
+			stringBuilder.append("      \"diaDoMes\":null,");
+			stringBuilder.append("      \"hora\":null,");
+			stringBuilder.append("      \"minuto\":null,");
+			stringBuilder.append("      \"segundo\":null");
+			stringBuilder.append("   }");			
+			
+//			stringBuilder.append("   {  ");
+//			stringBuilder.append("      \"idCron\":5,");
+//			stringBuilder.append("      \"nome\":\"A cada - 2-  minuto\",");
+//			stringBuilder.append("      \"expressao\":\"0 */2 * * * ? *\",");
+//			stringBuilder.append("      \"idUsuarioCriador\":1899,");
+//			stringBuilder.append("      \"idUsuarioModificador\":null,");
+//			stringBuilder.append("      \"dataHoraInicio\":1415372558000,");
+//			stringBuilder.append("      \"dataHoraFim\":null,");
+//			stringBuilder.append("      \"dataHoraUltimaAlteracao\":null,");
+//			stringBuilder.append("      \"nomeUsuarioModificador\":null,");
+//			stringBuilder.append("      \"nomeUsuarioCriador\":null,");
+//			stringBuilder.append("      \"listGerente\":[  ");
+//			stringBuilder.append("         {  ");
+//			stringBuilder.append("            \"idGerente\":2,");
+//			stringBuilder.append("            \"nome\":\"Gerente do IC CITGOPC959 via Nagios\",");
+//			stringBuilder.append("            \"idItemConfiguracaoPai\":98728,");
+//			stringBuilder.append("            \"idCaracteristicaIdentificacao\":null,");
+//			stringBuilder.append("            \"host\":\"CITGOPC959-VALDOILO\",");
+//			stringBuilder.append("            \"idCron\":5,");
+//			stringBuilder.append("            \"idFluxoDown\":1,");
+//			stringBuilder.append("            \"idUsuarioCriador\":22,");
+//			stringBuilder.append("            \"idUsuarioModificador\":null,");
+//			stringBuilder.append("            \"dataHoraInicio\":1415378163000,");
+//			stringBuilder.append("            \"dataHoraFim\":null,");
+//			stringBuilder.append("            \"dataHoraUltimaAlteracao\":null,");
+//			stringBuilder.append("            \"idConexao\":15,");
+//			stringBuilder.append("            \"listItensGerenciados\":null,");
+//			stringBuilder.append("            \"itemConfiguracaoMonitorado\":null,");
+//			stringBuilder.append("            \"evmConexaoDto\":{  ");
+//			stringBuilder.append("               \"idConexao\":15,");
+//			stringBuilder.append("               \"nome\":\"A - Citsmart Nagios 172.20.0.68\",");
+//			stringBuilder.append("               \"ferramenta\":\"NAGIOS\",");
+//			stringBuilder.append("               \"protocolo\":\"TCP\",");
+//			stringBuilder.append("               \"endereco\":\"172.20.0.68\",");
+//			stringBuilder.append("               \"porta\":6557,");
+//			stringBuilder.append("               \"usuario\":null,");
+//			stringBuilder.append("               \"senha\":null,");
+//			stringBuilder.append("               \"idUsuarioCriador\":1899,");
+//			stringBuilder.append("               \"idUsuarioModificador\":null,");
+//			stringBuilder.append("               \"dataHoraInicio\":1415378373000,");
+//			stringBuilder.append("               \"dataHoraFim\":null,");
+//			stringBuilder.append("               \"dataHoraUltimaAlteracao\":null,");
+//			stringBuilder.append("               \"nomeUsuarioModificador\":null,");
+//			stringBuilder.append("               \"nomeUsuarioCriador\":null");
+//			stringBuilder.append("            }");
+//			stringBuilder.append("         }");
+//			stringBuilder.append("  ]");
+//			stringBuilder.append("  }");
+			
+			
+			OutputStream os = connection.getOutputStream();
+			os.write(stringBuilder.toString().getBytes());
+			os.flush();
+			
+			
+			System.out.println(connection.getResponseMessage());
+			System.out.println(connection.getResponseCode());
+			connection.disconnect();  
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	
 	public static void enviarXMLCTM(String XML) {
